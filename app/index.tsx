@@ -1,10 +1,21 @@
-import { Text } from "react-native";
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { Redirect } from 'expo-router';
+import { useOnboarding } from '@/hooks/useOnboarding';
+import { View, Text } from 'react-native';
 
 export default function Index() {
-  return (
-    <SafeAreaView className="flex-1 items-center justify-center" edges={['top', 'bottom', 'left', 'right']}>
-      <Text>Edit app/index.tsx to edit this screen.</Text>
-    </SafeAreaView>
-  );
+  const { isCompleted, isLoading } = useOnboarding();
+
+  if (isLoading) {
+    return (
+      <View className="flex-1 bg-black items-center justify-center">
+        <Text className="text-white">Загрузка...</Text>
+      </View>
+    );
+  }
+
+  if (isCompleted) {
+    return <Redirect href="/(tabs)" />;
+  }
+
+  return <Redirect href="/(onboarding)/welcome" />;
 }
