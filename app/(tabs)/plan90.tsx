@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { View, Text, ScrollView, Pressable, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Ionicons } from '@expo/vector-icons';
-import { use90DayPlan } from '@/hooks/use90DayPlan';
+import { use90DayPlanQuery } from '@/hooks/use90DayPlanQuery';
 import { useProfile } from '@/hooks/useProfile';
 import { ProjectCard } from '@/screens/plan90/components/ProjectCard';
 import { AddProjectModal } from '@/screens/plan90/components/AddProjectModal';
@@ -21,7 +21,7 @@ export default function Plan90Screen() {
     updateProject,
     deleteProject,
     updateWorkingThoughts,
-  } = use90DayPlan();
+  } = use90DayPlanQuery();
 
   const [modalVisible, setModalVisible] = useState(false);
   const [editingProject, setEditingProject] = useState<Project | null>(null);
@@ -40,14 +40,13 @@ export default function Plan90Screen() {
   ) => {
     try {
       if (editingProject) {
-        await updateProject(editingProject.id, {
-          title,
-          description,
-          deadline,
+        await updateProject({
+          projectId: editingProject.id,
+          updates: { title, description, deadline },
         });
         setEditingProject(null);
       } else {
-        await addProject(title, description, deadline);
+        await addProject({ title, description, deadline });
       }
     } catch (error) {
       Alert.alert('Ошибка', 'Не удалось сохранить проект');
@@ -82,7 +81,10 @@ export default function Plan90Screen() {
         ? 'not_completed'
         : 'in_progress';
 
-    await updateProject(project.id, { status: nextStatus });
+    await updateProject({
+      projectId: project.id,
+      updates: { status: nextStatus },
+    });
   };
 
   const handleWorkingThoughtsChange = async (text: string) => {

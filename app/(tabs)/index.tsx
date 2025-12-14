@@ -12,7 +12,7 @@ import { format } from 'date-fns';
 import { ru } from 'date-fns/locale';
 import { useDailyPlan } from '@/hooks/useDailyPlan';
 import { useProfile } from '@/hooks/useProfile';
-import { use90DayPlan } from '@/hooks/use90DayPlan';
+import { use90DayPlanQuery } from '@/hooks/use90DayPlanQuery';
 import { useMonthlyFocus } from '@/hooks/useMonthlyFocus';
 import { useAchievements } from '@/hooks/useAchievements';
 import { MonthlyFocusBlock } from '@/screens/daily-planning/components/MonthlyFocusBlock';
@@ -26,7 +26,7 @@ import { FinancialAffirmation, MonthlyFocusItem, Achievement } from '@/types/mod
 export default function DailyPlanningScreen() {
   const [currentDate] = useState(new Date());
   const { profile } = useProfile();
-  const { currentPlan } = use90DayPlan();
+  const { currentPlan } = use90DayPlanQuery();
   const { monthlyFocus, setMonthlyFocusProjects } = useMonthlyFocus();
   const { checkAndUnlockAchievements } = useAchievements();
   const [unlockedAchievement, setUnlockedAchievement] = useState<Achievement | null>(null);

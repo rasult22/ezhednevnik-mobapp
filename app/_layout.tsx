@@ -12,7 +12,7 @@ export default function RootLayout() {
     <QueryClientProvider client={queryClient}>
       <SafeAreaProvider>
         <StatusBar barStyle={isDarkMode ? "light-content" : "dark-content"} />
-        <Stack />;
+        <Stack />
       </SafeAreaProvider>
     </QueryClientProvider>
   );

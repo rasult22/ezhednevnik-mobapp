@@ -1,4 +1,4 @@
-import { View, Text } from 'react-native';
+import { View, Text, KeyboardAvoidingView, Platform, ScrollView } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { useRouter } from 'expo-router';
 import { useState } from 'react';
@@ -22,37 +22,49 @@ export default function WelcomeScreen() {
   };
 
   return (
-    <SafeAreaView className="flex-1 bg-black px-4">
-      <View className="flex-1 justify-center">
-        <Text className="text-white text-4xl font-bold text-center mb-4">
-          Цифровой Ежедневник{'\n'}Триллионера
-        </Text>
-        <Text className="text-gray-400 text-lg text-center mb-8">
-          Тренажёр для фокуса на главном
-        </Text>
-        <Text className="text-gray-500 text-base text-center mb-12 px-4">
-          Следуя принципу Парето, мы фокусируемся на 20% задач,{'\n'}
-          которые приносят 80% результата
-        </Text>
+    <SafeAreaView className="flex-1 bg-black" edges={['top']}>
+      <KeyboardAvoidingView
+        className="flex-1"
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={0}
+      >
+        <ScrollView
+          className="flex-1 px-4"
+          contentContainerStyle={{ flexGrow: 1 }}
+          keyboardShouldPersistTaps="handled"
+        >
+          <View className="flex-1 justify-center">
+            <Text className="text-white text-4xl font-bold text-center mb-4">
+              Цифровой Ежедневник{'\n'}Триллионера
+            </Text>
+            <Text className="text-gray-400 text-lg text-center mb-8">
+              Тренажёр для фокуса на главном
+            </Text>
+            <Text className="text-gray-500 text-base text-center mb-12 px-4">
+              Следуя принципу Парето, мы фокусируемся на 20% задач,{'\n'}
+              которые приносят 80% результата
+            </Text>
 
-        <View className="mb-6">
-          <Input
-            label="Ваше имя"
-            value={name}
-            onChangeText={setName}
-            placeholder="Введите ваше имя"
-          />
-        </View>
-      </View>
+            <View className="mb-6">
+              <Input
+                label="Ваше имя"
+                value={name}
+                onChangeText={setName}
+                placeholder="Введите ваше имя"
+              />
+            </View>
+          </View>
 
-      <View className="mb-8">
-        <Button
-          title="Начать"
-          onPress={handleStart}
-          fullWidth
-          disabled={!name.trim()}
-        />
-      </View>
+          <View className="mb-8">
+            <Button
+              title="Начать"
+              onPress={handleStart}
+              fullWidth
+              disabled={!name.trim()}
+            />
+          </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
     </SafeAreaView>
   );
 }
